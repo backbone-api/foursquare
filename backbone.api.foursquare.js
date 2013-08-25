@@ -18,7 +18,7 @@
 
 
 	// main request method
-	Foursquare = new Backbone.Model({
+	var Foursquare = new Backbone.Model({
 		api: api,
 		token: 0
 	});
@@ -95,7 +95,6 @@
 		}
 	});
 
-
 	Foursquare.Collections.Venues = Collection.extend({
 		url: function(){
 			return Foursquare.get("api") +"/venues/search?"
@@ -110,13 +109,21 @@
 		}
 	});
 
-	// Fallbacks
+
+	// Store in selected namespace(s)
 	if( _.isUndefined(Backbone.API) ) Backbone.API = {};
 	Backbone.API.Foursquare = Foursquare;
 
+	// alias APP.API
+	if( typeof APP != "undefined" && (_.isUndefined( APP.API) || _.isUndefined( APP.API.Foursquare) ) ){
+		APP.API = APP.API || {};
+		APP.API.Foursquare = Backbone.API.Foursquare;
+	}
+
 	// Shortcut
 	if(typeof window.Foursquare == "undefined"){
-		window.Foursquare = Backbone.API.Foursquare;
+		window.Foursquare = Foursquare;
 	}
+
 
 })(this._, this.Backbone);
