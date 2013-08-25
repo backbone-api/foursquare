@@ -1,4 +1,4 @@
-## Backbone API: Foursquare
+# Backbone API: Foursquare
 
 Backbone.js helper for Foursquare requests
 
