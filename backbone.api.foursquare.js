@@ -8,13 +8,10 @@
 
 (function(_, Backbone) {
 
-	// Fallbacks
-	if( _.isUndefined(Backbone.API) ) Backbone.API = {};
-	//APP = window.APP || (APP = { Models: {}, Collections: {}, Views: {} });
 	// support the APP namespace (if available)
-	var Model = APP.Model || Backbone.Model;
-	var View = APP.View || Backbone.View;
-	var Collection = APP.Collection || Backbone.Collection;
+	var Model = ( typeof APP != "undefined" && !_.isUndefined( APP.Model) ) ? APP.Model : Backbone.Model;
+	var View = (typeof APP != "undefined" && !_.isUndefined( APP.View) ) ? APP.View : Backbone.View;
+	var Collection = (typeof APP != "undefined" && !_.isUndefined( APP.Collection) ) ? APP.Collection : Backbone.Collection;
 
 
 	// main request method
@@ -126,11 +123,13 @@
 		}
 	});
 
+	// Fallbacks
+	if( _.isUndefined(Backbone.API) ) Backbone.API = {};
 	Backbone.API.Foursquare = Foursquare;
 
-// Shortcut
-if(typeof window.Foursquare == "undefined"){
-	window.Foursquare = Backbone.API.Foursquare;
-}
+	// Shortcut
+	if(typeof window.Foursquare == "undefined"){
+		window.Foursquare = Backbone.API.Foursquare;
+	}
 
 })(this._, this.Backbone);
