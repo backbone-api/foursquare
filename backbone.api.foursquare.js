@@ -8,6 +8,9 @@
 
 (function(_, Backbone) {
 
+	// Reference: https://developer.foursquare.com/docs/
+	var api = "https://api.foursquare.com/v2";
+
 	// support the APP namespace (if available)
 	var Model = ( typeof APP != "undefined" && !_.isUndefined( APP.Model) ) ? APP.Model : Backbone.Model;
 	var View = (typeof APP != "undefined" && !_.isUndefined( APP.View) ) ? APP.View : Backbone.View;
@@ -16,7 +19,8 @@
 
 	// main request method
 	Foursquare = new Backbone.Model({
-
+		api: api,
+		token: 0
 	});
 
 	// namespace
@@ -28,13 +32,10 @@
 	// **Models**: ...
 
 	Foursquare.Models.User = Model.extend({
+		url: function(){ return Foursquare.get("api") +"/users/"+ this.get("id") },
+
 		defaults: { },
-		url: function(){ return "users/"+ this.get("id") },
-		initialize: function(){
-			// call cache on every state change
-			// add the access token
-			//this.token = access.token;
-		},
+
 		parse: function( data ){
 			return (data.user) ? data.user : data;
 		}
@@ -47,29 +48,23 @@
 	});
 
 	Foursquare.Models.AddCheckin = Model.extend({
+		url : function(){ return Foursquare.get("api") +"/checkins/add" },
 		defaults : {
 			venueId : 0
-		},
-		url : "checkins/add"
+		}
 	});
 
 	Foursquare.Models.Friend = Model.extend({
-		defaults: { },
-		initialize: function(){
-			// call cache on every state change
-
+		defaults: {
 		},
+
 		parse: function( data ){
 			return (data.user) ? data.user : data;
 		}
 	});
 
 	Foursquare.Models.Venue = Model.extend({
-		defaults: { },
-		initialize: function(){
-			// call cache on every state change
-
-		}
+		defaults: { }
 	});
 
 
@@ -77,15 +72,12 @@
 	// **Collections**: ...
 
 	Foursquare.Collections.Tips = Collection.extend({
+		url: function(){ return Foursquare.get("api") +"/users/"+ this.options.user +"/tips" },
+		defaults: { },
 		options: {
 			user: "self"
 		},
-		defaults: { },
-		url: function(){ return "users/"+ this.options.user +"/tips" },
-		initialize: function(){
-			// call cache on every state change
 
-		},
 		parse: function( data ){
 			console.log(data);
 			return (data.tips) ? data.tips.items : data;
@@ -93,13 +85,11 @@
 	});
 
 	Foursquare.Collections.Friends = Collection.extend({
+		url: function(){ return Foursquare.get("api") +"/users/"+ this.options.user +"/friends" },
 		options: {
 			user: "self"
 		},
-		url: function(){ return "users/"+ this.options.user +"/friends" },
-		initialize: function(){
-			// call cache on every state change
-		},
+
 		parse: function( data ){
 			return (data.friends) ? data.friends.items : data;
 		}
@@ -108,15 +98,12 @@
 
 	Foursquare.Collections.Venues = Collection.extend({
 		url: function(){
-			return "venues/search?"
+			return Foursquare.get("api") +"/venues/search?"
 				+ "ll="+ app.state.location.coords.latitude +","+ app.state.location.coords.longitude
 				+"&radius=50"; // hard-code radius to 50m
 				//+"&oauth_token="+ app.session.get("access_token");
 		},
-		initialize: function(){
-			// call cache on every state change
 
-		},
 		parse: function( data ){
 			//console.log( data );
 			return (data.venues) ? data.venues : data;
