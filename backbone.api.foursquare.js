@@ -18,19 +18,19 @@
 
 
 	// main request method
-	Backbone.API.Foursquare = Collection.extend({
+	Foursquare = new Backbone.Model({
 
 	});
 
 	// namespace
-	Backbone.API.Foursquare.Models = {};
-	Backbone.API.Foursquare.Collection = {};
-	Backbone.API.Foursquare.Views = {};
+	Foursquare.Models = {};
+	Foursquare.Collection = {};
+	Foursquare.Views = {};
 
 
 	// **Models**: ...
 
-	Backbone.API.Foursquare.Models.User = Model.extend({
+	Foursquare.Models.User = Model.extend({
 		defaults: { },
 		url: function(){ return "users/"+ this.get("id") },
 		initialize: function(){
@@ -43,20 +43,20 @@
 		}
 	});
 
-	Backbone.API.Foursquare.Models.Me = Backbone.API.Foursquare.Models.User.extend({
+	Foursquare.Models.Me = Foursquare.Models.User.extend({
 		defaults : {
 			id : "self"
 		}
 	});
 
-	Backbone.API.Foursquare.Models.AddCheckin = Model.extend({
+	Foursquare.Models.AddCheckin = Model.extend({
 		defaults : {
 			venueId : 0
 		},
 		url : "checkins/add"
 	});
 
-	Backbone.API.Foursquare.Models.Friend = Model.extend({
+	Foursquare.Models.Friend = Model.extend({
 		defaults: { },
 		initialize: function(){
 			// call cache on every state change
@@ -67,7 +67,7 @@
 		}
 	});
 
-	Backbone.API.Foursquare.Models.Venue = Model.extend({
+	Foursquare.Models.Venue = Model.extend({
 		defaults: { },
 		initialize: function(){
 			// call cache on every state change
@@ -79,7 +79,7 @@
 
 	// **Collections**: ...
 
-	Backbone.API.Foursquare.Collections.Tips = Collection.extend({
+	Foursquare.Collections.Tips = Collection.extend({
 		options: {
 			user: "self"
 		},
@@ -95,7 +95,7 @@
 		}
 	});
 
-	Backbone.API.Foursquare.Collections.Friends = Collection.extend({
+	Foursquare.Collections.Friends = Collection.extend({
 		options: {
 			user: "self"
 		},
@@ -109,7 +109,7 @@
 	});
 
 
-	Backbone.API.Foursquare.Collections.Venues = Collection.extend({
+	Foursquare.Collections.Venues = Collection.extend({
 		url: function(){
 			return "venues/search?"
 				+ "ll="+ app.state.location.coords.latitude +","+ app.state.location.coords.longitude
@@ -126,7 +126,7 @@
 		}
 	});
 
-
+	Backbone.API.Foursquare = Foursquare;
 
 // Shortcut
 if(typeof window.Foursquare == "undefined"){
