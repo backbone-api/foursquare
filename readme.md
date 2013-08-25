@@ -2,16 +2,31 @@
 
 Backbone.js helper for Foursquare requests
 
-## Install 
+## Install
 
-Using Bower: 
+Using Bower:
 ```
-bower install backbone.api.twitter
+bower install backbone.api.foursquare
 ```
 
+## Usage
 
-## Credits 
+The plugin will try to create a global namespace ```Foursquare``` that will host all the Models/Views/Collections mirrored from Backbone.API.Foursquare
 
-Created by Makis Tracend ( (@tracend)[http://github.com/tracend] )
+Common Backbone.js conventions apply using the _Foursquare_ namespace. For example:
 
-Originally used for Pawsquare
+```
+var user = new Foursquare.Models.User();
+```
+
+## Credits
+
+Created by Makis Tracend ( [@tracend](http://github.com/tracend) )
+
+### Trivia
+
+* Originally used in [Pawsquare](https://itunes.apple.com/us/app/pawsquare/id586032626?mt=8)
+
+### License
+
+Released under the [MIT license](http://makesites.org/licenses/MIT)
