@@ -1,6 +1,11 @@
 {
-  "name": "backbone-api-foursquare",
-  "version": "0.1.0",
-  "main": ["./backbone.api.foursquare.js"],
-  "dependencies": { "backbone", "underscore" }
+    "name": "backbone-api-foursquare",
+    "version": "0.1.0",
+    "main": [
+        "./backbone.api.foursquare.js"
+    ],
+    "dependencies": {
+        "backbone": "*",
+        "underscore": "*"
+    }
 }
